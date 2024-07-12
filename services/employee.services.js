@@ -53,6 +53,7 @@ const addOrEditEmployee = async (obj, id = 0) => {
     throw err;
   }
 };
+
 module.exports = {
   fetchAllEmployees,
   fetchEmployeesById,
