@@ -57,7 +57,6 @@ const deleteEmployee = asyncHandler(async (req, res) => {
     } else {
       res.status(200).json({
         msg: "Employee successfully deleted",
-        data: result,
       });
     }
   } catch (err) {
@@ -74,11 +73,16 @@ const createOrUpdateEmployee = asyncHandler(async (req, res) => {
       { name, employee_code, salary },
       id
     );
-    const [[data]] = rows;
-    return res.status(201).json({
-      msg: "Employee successfully created or edited",
-      data: data,
-    });
+    const [[{ affectedRows }]] = rows;
+    if (affectedRows == 0) {
+      return res.status(404).json({
+        msg: `No record found with the give id: ${id}`,
+      });
+    } else {
+      return res.status(201).json({
+        msg: "Employee successfully created or edited",
+      });
+    }
   } catch (err) {
     console.error(err.message);
     throw err;
