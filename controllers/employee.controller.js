@@ -68,14 +68,16 @@ const deleteEmployee = asyncHandler(async (req, res) => {
 
 const createOrUpdateEmployee = asyncHandler(async (req, res) => {
   try {
-    const { id, name, employee_code, salary } = req.body;
-    const [{affectedRows}, fields] = await addOrEditEmployee(
+    const { id } = req.params;
+    const { name, employee_code, salary } = req.body;
+    const [rows, fields] = await addOrEditEmployee(
       { name, employee_code, salary },
       id
     );
+    const [[data]] = rows;
     return res.status(201).json({
       msg: "Employee successfully created or edited",
-      data:{affectedRows},
+      data: data,
     });
   } catch (err) {
     console.error(err.message);

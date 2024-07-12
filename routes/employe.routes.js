@@ -8,6 +8,10 @@ const {
 const router = express.Router();
 
 router.route("/").get(getAllEmployees).post(createOrUpdateEmployee);
-router.route("/:id").get(getEmployee).delete(deleteEmployee);
+router
+  .route("/:id")
+  .get(getEmployee)
+  .delete(deleteEmployee)
+  .put(createOrUpdateEmployee);
 
 module.exports = router;
